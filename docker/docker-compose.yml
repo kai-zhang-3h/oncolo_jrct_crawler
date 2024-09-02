@@ -1,0 +1,24 @@
+version: "3"
+services:
+  mysql:
+    build: ./mysql/
+    volumes:
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d #初期処理のフォルダ。初回起動のみでおｋ
+      - ./mysql/db:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+
+    container_name: jrct_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+    ports:
+      - '3306:3306'
+  scrapy:
+      depends_on:
+        - mysql
+      build: ./scrapy/
+      container_name: jrct_scrapy
+      env_file:
+      - ../app/.env
+      volumes:
+        - ../app:/usr/src/app
+      tty: true
