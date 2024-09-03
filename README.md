@@ -1,4 +1,4 @@
-# Trial Search 
+# Oncolo JRCT Crawler
 
 ## 1 Overview
 
@@ -8,20 +8,18 @@ In this article, we will list and explain some core commands related to the laun
 
 ## 2 Directory Structure
 
-    ├─pyenv
-    │  └─src
-    │      └─trial_search_crawler
-    │          └─trial_search_crawler
-    │              ├─spiders
-    │              └─utils
-    └─sqlenv
-        └─mysql
-            ├─db
-            │  ├─#innodb_redo
-            │  ├─#innodb_temp
-            │  ├─jrctdb
-            │  ├─mysql
-            │  ├─performance_schema
-            │  ├─sys
-            │  └─testdb
-            └─initdb.d
+.
+├── README.md
+├── app
+│   └── src
+│       └── main.py
+└── docker
+    ├── docker-compose.yml
+    ├── mysql
+    │   ├── Dockerfile
+    │   ├── initdb.d
+    │   │   └── init.sql
+    │   └── my.cnf
+    └── scrapy
+        ├── Dockerfile
+        └── requirements.txt
