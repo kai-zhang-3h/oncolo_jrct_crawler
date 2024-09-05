@@ -6,9 +6,6 @@ itemsPerPage = 50
 
 totalPages = 0
 
-f = open('public/jrctList.txt', 'w')
-f.close()
-
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
@@ -25,12 +22,9 @@ headers = {
 data = {
     'demo_1': '',
     'others': '1',
-    'reg_plobrem_1': '',
+    'reg_plobrem_1': '肺がん',
     'reg_plobrem_type': '0',
-    'reg_recruitment[]': [
-        '1',
-        '2',
-    ],
+    'reg_recruitment[]': '2',
     'reg_region': '',
     'reg_address': '',
     'reg_medical_affilication_name': '',
@@ -63,6 +57,9 @@ class OncoloJrctIdSpider(scrapy.Spider):
         @returns items 0
         @returns requests 11
         """
+
+        f = open('public/jrctList.txt', 'w')
+        f.close()
 
         return [
             scrapy.FormRequest(
@@ -99,9 +96,10 @@ class OncoloJrctIdSpider(scrapy.Spider):
         jrctRaw = list(map(lambda x:x.xpath('.//td')[0].xpath('.//text()').get(), response.xpath('.//tbody')[0].xpath('.//tr')))
         jrctList = list(map(lambda x:x.split("\n                            ")[1].split(' ')[0], jrctRaw))
 
+        print(jrctList)
+        
         f = open('public/jrctList.txt', 'a')
-        for jrct in jrctList:
-            f.write(jrct+'\n')
+        f.write('\n'.join(jrctList))
         f.close()
 
         if (cnt <= totalPages):
