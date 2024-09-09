@@ -19,6 +19,8 @@ headers = {
 
 }
 
+# Scrape items of lung cancer only
+
 data = {
     'demo_1': '',
     'others': '1',
@@ -42,6 +44,31 @@ data = {
     'button_type': 'confReg',
 }
 
+# Scrape all under recruitement
+
+# data = {
+#     'demo_1': '',
+#     'others': '1',
+#     'reg_plobrem_1': '',
+#     'reg_plobrem_type': '0',
+#     'reg_recruitment[]': '2',
+#     'reg_region': '',
+#     'reg_address': '',
+#     'reg_medical_affilication_name': '',
+#     'reg_title_1': '',
+#     'reg_title_type': '0',
+#     'reg_research_num': '',
+#     'reg_inclusion_criteria_1': '',
+#     'reg_inclusion_criteria_type': '0',
+#     'reg_medical_product_1': '',
+#     'reg_medical_product_type': '0',
+#     'reg_inter_contents_1': '',
+#     'reg_inter_contents_type': '0',
+#     'reg_com_name_1': '',
+#     'reg_com_name_type': '0',
+#     'button_type': 'confReg',
+# }
+
 class OncoloJrctIdSpider(scrapy.Spider):
     name = "oncolojrctid"
 
@@ -57,9 +84,6 @@ class OncoloJrctIdSpider(scrapy.Spider):
         @returns items 0
         @returns requests 11
         """
-
-        f = open('public/jrctList.txt', 'w')
-        f.close()
 
         return [
             scrapy.FormRequest(
@@ -95,11 +119,11 @@ class OncoloJrctIdSpider(scrapy.Spider):
 
         jrctRaw = list(map(lambda x:x.xpath('.//td')[0].xpath('.//text()').get(), response.xpath('.//tbody')[0].xpath('.//tr')))
         jrctList = list(map(lambda x:x.split("\n                            ")[1].split(' ')[0], jrctRaw))
-
-        print(jrctList)
         
         f = open('public/jrctList.txt', 'a')
         f.write('\n'.join(jrctList))
+        if (cnt <= totalPages):
+            f.write('\n')
         f.close()
 
         if (cnt <= totalPages):
