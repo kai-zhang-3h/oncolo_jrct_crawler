@@ -1,5 +1,7 @@
 DROP DATABASE IF EXISTS testdb;
 CREATE DATABASE testdb;
+DROP DATABASE IF EXISTS oncolojrctdb;
+CREATE DATABASE oncolojrctdb;
 USE testdb;
 DROP TABLE IF EXISTS test;
 
